@@ -27,49 +27,55 @@ const Navigation = () => {
   ];
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-background/80 backdrop-blur-xl border-b border-border shadow-lg'
-          : 'bg-transparent'
-      }`}
-    >
+    <nav className={`fixed w-full z-50 transition-all duration-500 ${
+      isScrolled 
+        ? 'bg-background/90 backdrop-blur-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] border-b border-primary/10' 
+        : 'bg-transparent'
+    }`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 group">
-            <div className="text-3xl font-bold">
-              <span className="gradient-text">Mediofia</span>
+          <Link 
+            to="/" 
+            className="text-2xl font-bold gradient-text hover:scale-110 transition-all duration-300 flex items-center gap-2 group"
+          >
+            <div className="relative">
+              <div className="absolute inset-0 bg-primary/20 rounded-lg blur-xl group-hover:blur-2xl transition-all" />
+              <span className="relative">Mediofia</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-1">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
-                  location.pathname === link.path
-                    ? 'text-primary'
-                    : 'text-muted-foreground'
+                className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group ${
+                  location.pathname === link.path 
+                    ? 'text-primary' 
+                    : 'text-foreground hover:text-primary'
                 }`}
               >
-                {link.name}
+                <span className="relative z-10">{link.name}</span>
+                {location.pathname === link.path && (
+                  <div className="absolute inset-0 bg-primary/10 rounded-lg border border-primary/30" />
+                )}
+                <div className="absolute inset-0 bg-primary/5 rounded-lg scale-0 group-hover:scale-100 transition-transform duration-300" />
               </Link>
             ))}
           </div>
 
           {/* CTA Button */}
-          <div className="hidden lg:flex items-center space-x-4">
-            <Button variant="hero" size="lg" asChild>
-              <Link to="/contact">Get Free Strategy Call</Link>
+          <div className="hidden lg:flex items-center">
+            <Button variant="hero" size="default" asChild>
+              <Link to="/contact">Get Started</Link>
             </Button>
           </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden text-foreground"
+            className="lg:hidden text-foreground p-2 hover:bg-primary/10 rounded-lg transition-colors"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -79,23 +85,23 @@ const Navigation = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden glass border-t border-border">
-          <div className="container mx-auto px-4 py-6 space-y-4">
+        <div className="lg:hidden glass border-t border-primary/20 backdrop-blur-2xl">
+          <div className="container mx-auto px-4 py-6 space-y-2">
             {navLinks.map((link) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`block py-2 text-base font-medium transition-colors ${
+                className={`block py-3 px-4 text-base font-medium rounded-lg transition-all ${
                   location.pathname === link.path
-                    ? 'text-primary'
-                    : 'text-muted-foreground hover:text-primary'
+                    ? 'text-primary bg-primary/10 border border-primary/30'
+                    : 'text-foreground hover:text-primary hover:bg-primary/5'
                 }`}
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
-            <Button variant="hero" size="lg" className="w-full" asChild>
+            <Button variant="hero" size="lg" className="w-full mt-4" asChild>
               <Link to="/contact">Get Free Strategy Call</Link>
             </Button>
           </div>
